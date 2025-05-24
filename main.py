@@ -1,5 +1,4 @@
 from NetSDK.NetSDK import NetClient
-from NetSDK.SDK_Callback import fDisConnect, fHaveReConnect
 from NetSDK.SDK_Enum import *
 from NetSDK.SDK_Struct import *
 from ctypes import *
@@ -12,8 +11,6 @@ from dotenv import load_dotenv
 load_dotenv()
 
 def face_recognition_callback(lAnalyzerHandle, dwAlarmType, pAlarmInfo, pBuffer, dwBufSize, dwUser, nSequence, reserved):
-    print(f"Alarm type: {dwAlarmType}")
-    print("dwUser: ", dwUser)
     if dwAlarmType == EM_EVENT_IVS_TYPE.ACCESS_CTL:
         
         alarm_info = cast(pAlarmInfo, POINTER(DEV_EVENT_ACCESS_CTL_INFO)).contents
@@ -42,8 +39,6 @@ def check_in_to_crm(user_id):
         print(response.text)
     except requests.exceptions.RequestException as e:
         print(f"HTTP request failed: {e}")
-    response = requests.request("POST", url, headers=headers, data=payload)
-    print(response.text)
 
 def main():
     # Initialize SDK
@@ -51,10 +46,10 @@ def main():
     sdk.InitEx(None)
     
     # Login parameters
-    ip = "192.168.100.43"  # Replace with your device IP
-    port = 80       # Replace with your device port
-    username = "admin" # Replace with your username
-    password = "LA7312@TA" # Replace with your password
+    ip = os.getenv("IP")  # Replace with your device IP
+    port = os.getenv("PORT")      # Replace with your device port
+    username = os.getenv("USERNAME")  # Replace with your username
+    password = os.getenv("PASSWORD") # Replace with your password
     
     # Login structure
     stuInParam = NET_IN_LOGIN_WITH_HIGHLEVEL_SECURITY()
