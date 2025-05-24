@@ -55,7 +55,7 @@ def main():
     stuInParam = NET_IN_LOGIN_WITH_HIGHLEVEL_SECURITY()
     stuInParam.dwSize = sizeof(NET_IN_LOGIN_WITH_HIGHLEVEL_SECURITY)
     stuInParam.szIP = ip.encode()
-    stuInParam.nPort = port
+    stuInParam.nPort = int(port)
     stuInParam.szUserName = username.encode()
     stuInParam.szPassword = password.encode()
     stuInParam.emSpecCap = EM_LOGIN_SPAC_CAP_TYPE.TCP
